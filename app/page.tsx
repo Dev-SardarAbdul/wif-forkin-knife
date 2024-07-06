@@ -1,0 +1,166 @@
+"use client";
+
+import Image from "next/image";
+import blackImg from "@assets/blackImg.png";
+import redImg from "@assets/redImg.png";
+import blueImg from "@assets/blueImg.png";
+import vanillaImg from "@assets/vanillaImg.png";
+import whiteImg from "@assets/whiteImg.png";
+import { useRef, useState } from "react";
+
+export default function Home() {
+  const [selectedValue, setActiveValue] = useState<string>("white");
+  const [image, setImage] = useState<string | null>(null);
+  const uploaderRef = useRef<any>();
+
+  const handleImageChange = (event: any) => {
+    const file = event.target.files[0];
+    if (file && file.type.startsWith("image/")) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      alert("Please upload a valid image file.");
+    }
+  };
+
+  const handleDownload = () => {
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+
+    if (!context) {
+      return;
+    }
+
+    const baseImage = new window.Image();
+    const overlayImage = new window.Image();
+
+    baseImage.src =
+      selectedValue === "white"
+        ? whiteImg.src
+        : selectedValue === "vanilla"
+        ? vanillaImg.src
+        : selectedValue === "black"
+        ? blackImg.src
+        : selectedValue === "red"
+        ? redImg.src
+        : selectedValue === "blue"
+        ? blueImg.src
+        : whiteImg.src;
+
+    baseImage.onload = () => {
+      canvas.width = baseImage.width;
+      canvas.height = baseImage.height;
+      context.drawImage(baseImage, 0, 0);
+
+      if (image) {
+        overlayImage.src = image;
+        overlayImage.onload = () => {
+          context.drawImage(
+            overlayImage,
+            0,
+            0,
+            baseImage.width,
+            baseImage.height
+          );
+          const finalImage = canvas.toDataURL("image/png");
+          downloadImage(finalImage, "image.png");
+        };
+      } else {
+        const finalImage = canvas.toDataURL("image/png");
+        downloadImage(finalImage, "image.png");
+      }
+    };
+  };
+
+  const downloadImage = (dataUrl: string, filename: string) => {
+    const link = document.createElement("a");
+    link.href = dataUrl;
+    link.download = filename;
+    link.click();
+  };
+
+  return (
+    <main className="py-12 px-4 container mx-auto">
+      <p className="text-[#00463b] text-lg uppercase font-bold leading-3">
+        Pimp out your PFP
+      </p>
+
+      <h4 className="text-[#333333] text-2xl md:text-4xl lg:text-[52px] font-bold !leading-none mt-4 lg:mt-8">
+        Transform Your PFP into a Statement <br className="xl:block hidden" />{" "}
+        of Personalized Creativity
+      </h4>
+      <div className="md:w-[700px] mt-12 mx-auto">
+        <div className="flex justify-end items-center gap-2">
+          <p className="text-[#00463b] text-lg font-bold">Style:</p>
+          <select
+            className="p-2 bg-white border cursor-pointer border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onChange={(event) => setActiveValue(event.target.value)}
+          >
+            <option value="white">White</option>
+            <option value="vanilla">Vanilla</option>
+            <option value="black">Black</option>
+            <option value="red">Red</option>
+            <option value="blue">Blue</option>
+          </select>
+        </div>
+        <div className="flex flex-col rounded-lg p-8 mt-4 justify-center items-center gap-2 w-full bg-white border shadow-xl">
+          <div className="relative w-[200px] h-[200px] overflow-clip rounded-full">
+            <Image
+              className="w-full h-full relative z-10"
+              src={
+                selectedValue === "white"
+                  ? whiteImg
+                  : selectedValue === "vanilla"
+                  ? vanillaImg
+                  : selectedValue === "black"
+                  ? blackImg
+                  : selectedValue === "red"
+                  ? redImg
+                  : selectedValue === "blue"
+                  ? blueImg
+                  : whiteImg
+              }
+              alt="Image"
+            />
+            {image && (
+              <div className="absolute inset-0 w-full h-full flex justify-center items-center overflow-clip">
+                <Image
+                  src={image}
+                  alt="Uploaded Image"
+                  className=""
+                  width={200}
+                  height={200}
+                />
+              </div>
+            )}
+          </div>
+
+          <input
+            type="file"
+            ref={uploaderRef}
+            accept="image/*"
+            hidden
+            onChange={handleImageChange}
+          />
+          <div className="flex sm:flex-row flex-col justify-center items-center gap-4 mt-8">
+            <button
+              className="w-52 rounded-full text-lg font-medium h-14 bg-[#00463b] text-white"
+              onClick={() => uploaderRef.current.click()}
+            >
+              Upload an Image
+            </button>
+            <button
+              className="w-56 rounded-full text-lg font-medium h-14 bg-black text-white"
+              onClick={handleDownload}
+            >
+              Download Final Image
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+  );
+}
