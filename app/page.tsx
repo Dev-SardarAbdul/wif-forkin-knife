@@ -159,7 +159,7 @@ export default function Home() {
         </div>
       </main>
 
-      <div className="bg-[#00463B] py-4">
+      <div className="bg-[#0052ff] py-4">
         <div className="container mx-auto px-4 flex md:flex-row flex-col justify-between items-center gap-2">
           <h4 className="text-white">$WFK Built on Base Chain</h4>
           <h4 className="text-white text-center break-all">
