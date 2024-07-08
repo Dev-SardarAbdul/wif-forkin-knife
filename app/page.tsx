@@ -34,6 +34,11 @@ export default function Home() {
       return;
     }
 
+    canvas.width = 200;
+    canvas.height = 200;
+    canvas.style.borderRadius = "1000px";
+    canvas.style.overflow = "hidden";
+
     const baseImage = new window.Image();
     const overlayImage = new window.Image();
 
@@ -50,28 +55,16 @@ export default function Home() {
         ? blueImg.src
         : whiteImg.src;
 
-    baseImage.onload = () => {
-      canvas.width = baseImage.width;
-      canvas.height = baseImage.height;
-      context.drawImage(baseImage, 0, 0);
+    overlayImage.src = image || "";
 
-      if (image) {
-        overlayImage.src = image;
-        overlayImage.onload = () => {
-          context.drawImage(
-            overlayImage,
-            0,
-            0,
-            baseImage.width,
-            baseImage.height
-          );
-          const finalImage = canvas.toDataURL("image/png");
-          downloadImage(finalImage, "image.png");
-        };
-      } else {
+    overlayImage.onload = () => {
+      context.drawImage(overlayImage, 0, 0, canvas.width, canvas.height);
+
+      baseImage.onload = () => {
+        context.drawImage(baseImage, 0, 0, canvas.width, canvas.height);
         const finalImage = canvas.toDataURL("image/png");
         downloadImage(finalImage, "image.png");
-      }
+      };
     };
   };
 
@@ -143,7 +136,7 @@ export default function Home() {
             />
             <div className="flex sm:flex-row flex-col justify-center items-center gap-4 mt-8">
               <button
-                className="w-52 relatiive z-10 rounded-full text-lg font-medium h-14 bg-[#00463b] text-white"
+                className="w-52 relatiive z-10 rounded-full text-lg font-medium h-14 bg-[#0052ff] text-white"
                 onClick={() => uploaderRef.current.click()}
               >
                 Upload an Image
