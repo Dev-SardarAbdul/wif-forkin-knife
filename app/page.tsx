@@ -143,13 +143,13 @@ export default function Home() {
             />
             <div className="flex sm:flex-row flex-col justify-center items-center gap-4 mt-8">
               <button
-                className="w-52 rounded-full text-lg font-medium h-14 bg-[#00463b] text-white"
+                className="w-52 relatiive z-10 rounded-full text-lg font-medium h-14 bg-[#00463b] text-white"
                 onClick={() => uploaderRef.current.click()}
               >
                 Upload an Image
               </button>
               <button
-                className="w-56 rounded-full text-lg font-medium h-14 bg-black text-white"
+                className="w-56 relatiive z-10 rounded-full text-lg font-medium h-14 bg-black text-white"
                 onClick={handleDownload}
               >
                 Download Final Image
