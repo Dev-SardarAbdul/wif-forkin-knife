@@ -34,10 +34,18 @@ export default function Home() {
       return;
     }
 
-    canvas.width = 200;
-    canvas.height = 200;
-    canvas.style.borderRadius = "1000px";
-    canvas.style.overflow = "hidden";
+    const targetWidth = 200;
+    const targetHeight = 200;
+    const pixelRatio = window.devicePixelRatio;
+
+    canvas.width = targetWidth * pixelRatio;
+    canvas.height = targetHeight * pixelRatio;
+
+    canvas.style.width = `${targetWidth}px`;
+    canvas.style.height = `${targetHeight}px`;
+
+    context.imageSmoothingEnabled = true;
+    context.imageSmoothingQuality = "high";
 
     const baseImage = new window.Image();
     const overlayImage = new window.Image();
@@ -58,16 +66,34 @@ export default function Home() {
     if (image) {
       overlayImage.src = image;
       overlayImage.onload = () => {
-        context.drawImage(overlayImage, 0, 0, canvas.width, canvas.height);
+        context.drawImage(
+          overlayImage,
+          0,
+          0,
+          targetWidth * pixelRatio,
+          targetHeight * pixelRatio
+        );
         baseImage.onload = () => {
-          context.drawImage(baseImage, 0, 0, canvas.width, canvas.height);
+          context.drawImage(
+            baseImage,
+            0,
+            0,
+            targetWidth * pixelRatio,
+            targetHeight * pixelRatio
+          );
           const finalImage = canvas.toDataURL("image/png");
           downloadImage(finalImage, "image.png");
         };
       };
     } else {
       baseImage.onload = () => {
-        context.drawImage(baseImage, 0, 0, canvas.width, canvas.height);
+        context.drawImage(
+          baseImage,
+          0,
+          0,
+          targetWidth * pixelRatio,
+          targetHeight * pixelRatio
+        );
         const finalImage = canvas.toDataURL("image/png");
         downloadImage(finalImage, "image.png");
       };
