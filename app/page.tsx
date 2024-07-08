@@ -55,17 +55,23 @@ export default function Home() {
         ? blueImg.src
         : whiteImg.src;
 
-    overlayImage.src = image || "";
-
-    overlayImage.onload = () => {
-      context.drawImage(overlayImage, 0, 0, canvas.width, canvas.height);
-
+    if (image) {
+      overlayImage.src = image;
+      overlayImage.onload = () => {
+        context.drawImage(overlayImage, 0, 0, canvas.width, canvas.height);
+        baseImage.onload = () => {
+          context.drawImage(baseImage, 0, 0, canvas.width, canvas.height);
+          const finalImage = canvas.toDataURL("image/png");
+          downloadImage(finalImage, "image.png");
+        };
+      };
+    } else {
       baseImage.onload = () => {
         context.drawImage(baseImage, 0, 0, canvas.width, canvas.height);
         const finalImage = canvas.toDataURL("image/png");
         downloadImage(finalImage, "image.png");
       };
-    };
+    }
   };
 
   const downloadImage = (dataUrl: string, filename: string) => {
@@ -136,7 +142,7 @@ export default function Home() {
             />
             <div className="flex sm:flex-row flex-col justify-center items-center gap-4 mt-8">
               <button
-                className="w-52 relatiive z-10 rounded-full text-lg font-medium h-14 bg-[#0052ff] text-white"
+                className="w-52 relatiive z-10 rounded-full text-lg font-medium h-14 bg-[#00463b] text-white"
                 onClick={() => uploaderRef.current.click()}
               >
                 Upload an Image
