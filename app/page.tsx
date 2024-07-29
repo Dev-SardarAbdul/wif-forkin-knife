@@ -176,6 +176,7 @@ export default function Home() {
               accept="image/*"
               hidden
               onChange={handleImageChange}
+              onInput={handleImageChange}
             />
             <div className="flex sm:flex-row flex-col justify-center items-center gap-4 mt-8">
               <button
