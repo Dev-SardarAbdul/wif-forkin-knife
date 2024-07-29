@@ -50,6 +50,9 @@ export default function Home() {
     const baseImage = new window.Image();
     const overlayImage = new window.Image();
 
+    baseImage.crossOrigin = "anonymous";
+    overlayImage.crossOrigin = "anonymous";
+
     baseImage.src =
       selectedValue === "white"
         ? whiteImg.src
