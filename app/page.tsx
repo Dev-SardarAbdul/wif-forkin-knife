@@ -107,11 +107,19 @@ export default function Home() {
     const link = document.createElement("a");
     link.href = dataUrl;
     link.download = filename;
+
+    // Append link to body
+    document.body.appendChild(link);
+
+    // Trigger download
     link.click();
+
+    // Remove link from body
+    document.body.removeChild(link);
   };
 
   return (
-    <main className="pt-12 min-h-screen flex flex-col  bg-[#0052ff]">
+    <main className="pt-12 min-h-screen flex flex-col bg-[#0052ff]">
       <main className="flex-1 px-4 container mx-auto">
         <h4 className="text-white text-center text-2xl md:text-4xl lg:text-[52px] font-bold !leading-none mt-4 lg:mt-8">
           WIFFORKINKNIFE PFP CREATOR
