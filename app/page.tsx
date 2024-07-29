@@ -192,6 +192,11 @@ export default function Home() {
               </button>
             </div>
           </div>
+
+          <p className="text-white mt-4 text-center">
+            *Depending on your device you may need to be in privacy mode in
+            Chrome or Safari to download your new $WFK PFP.
+          </p>
         </div>
       </main>
 
