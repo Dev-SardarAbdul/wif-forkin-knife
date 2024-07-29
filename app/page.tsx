@@ -111,14 +111,14 @@ export default function Home() {
   };
 
   return (
-    <main className="pt-12 min-h-screen flex flex-col  ">
+    <main className="pt-12 min-h-screen flex flex-col  bg-[#0052ff]">
       <main className="flex-1 px-4 container mx-auto">
-        <h4 className="text-[#333333] text-center text-2xl md:text-4xl lg:text-[52px] font-bold !leading-none mt-4 lg:mt-8">
+        <h4 className="text-white text-center text-2xl md:text-4xl lg:text-[52px] font-bold !leading-none mt-4 lg:mt-8">
           WIFFORKINKNIFE PFP CREATOR
         </h4>
         <div className="md:w-[700px] mt-12 mx-auto">
           <div className="flex justify-end items-center gap-2">
-            <p className="text-[#00463b] text-lg font-bold">Style:</p>
+            <p className="text-white text-lg font-bold">Style:</p>
             <select
               className="p-2 bg-white border cursor-pointer border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               onChange={(event) => setActiveValue(event.target.value)}
